@@ -89,6 +89,30 @@ app.get('/validate', async (req, res) => {
     }
 })
 
+app.get('/posts', async (req, res) => {
+    const token = req.headers.authorization || ''
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const followers = await prisma.user.findMany({
+                where: { id: user.id }, include: {
+                    following: {
+                        include: {
+                            posts: true
+                        }
+                    }
+                }
+            })
+            res.status(200).send(followers)
+        } else {
+            throw Error('Invalid token')
+        }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
