@@ -113,6 +113,59 @@ app.get('/posts', async (req, res) => {
     }
 })
 
+app.get('/users', async (req, res) => {
+    const users = await prisma.user.findMany({ include: { following: true, followedBy: true } })
+    res.status(200).send(users)
+})
+
+app.get('/suggestions', async (req, res) => {
+    const token = req.headers.authorization || ''
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const userFollowing = await prisma.user.findMany({ where: { id: user.id }, include: { following: true } })
+            let response = await prisma.user.findMany()
+            for (const u of userFollowing[0].following) {
+                response = response.filter(acc => acc.id !== u.id)
+            }
+            response = response.filter(r => r.id !== user.id)
+            res.status(200).send({ suggested: response })
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
+app.get('/followedBy', async (req, res) => {
+    const token = req.headers.authorization || ''
+    const { username } = req.body
+    try {
+        const userLogged = await getUserFromToken(token)
+        if (userLogged) {
+            const userLoggedFollowing = await prisma.user.findUnique({ where: { id: userLogged.id }, include: { following: true } })
+            const otherUserFollowers = await prisma.user.findUnique({ where: { username }, include: { followedBy: true } })
+            //@ts-ignore
+            let mutual = userLoggedFollowing.following.filter(item => {
+                //@ts-ignore
+                let found = otherUserFollowers.followedBy.filter(i => i.id === item.id)
+                if (found.length !== 0) {
+                    return true
+                }
+            })
+            res.status(200).send(mutual)
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
