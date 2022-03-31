@@ -130,8 +130,22 @@ app.get('/posts', async (req, res) => {
                     }
                 },
                 include: {
-                    user: true
-                }
+                    user: true,
+                    comments: {
+                        include: {
+                            user: true
+                        }
+                    },
+                    likes: {
+                        include: {
+                            user: true
+                        }
+                    },
+                    _count: {
+                        select: { comments: true, likes: true }
+                    }
+                },
+
             })
             res.send(posts)
         } else {
