@@ -89,29 +89,6 @@ app.get('/validate', async (req, res) => {
     }
 })
 
-// app.get('/posts', async (req, res) => {
-//     const token = req.headers.authorization || ''
-//     try {
-//         const user = await getUserFromToken(token)
-//         if (user) {
-//             const followers = await prisma.user.findMany({
-//                 where: { id: user.id }, select: {
-//                     following: {
-//                         include: {
-//                             posts: true
-//                         }
-//                     }
-//                 }
-//             })
-//             res.status(200).send(followers)
-//         } else {
-//             throw Error('Invalid token')
-//         }
-//     } catch (err) {
-//         //@ts-ignore
-//         res.status(400).send({ error: err.message })
-//     }
-// })
 
 app.get('/posts', async (req, res) => {
     const token = req.headers.authorization || ''
@@ -204,6 +181,31 @@ app.post('/followedBy', async (req, res) => {
         } else {
             res.status(400).send({ error: 'Invalid token' })
         }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
+app.post('/comments', async (req, res) => {
+    const token = req.headers.authorization || ''
+    const { content, postId } = req.body
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            //check if the post exists:
+            const postExists = await prisma.post.findUnique({ where: { id: postId } })
+            if (postExists) {
+                const newComment = await prisma.comment.create({ data: { content, userId: user.id, postId: postId } })
+                res.status(200).send(newComment)
+            } else {
+                res.status(404).send({ error: 'Post not found!' })
+            }
+
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+
     } catch (err) {
         //@ts-ignore
         res.status(400).send({ error: err.message })
