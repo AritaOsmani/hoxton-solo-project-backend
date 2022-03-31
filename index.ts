@@ -89,21 +89,51 @@ app.get('/validate', async (req, res) => {
     }
 })
 
+// app.get('/posts', async (req, res) => {
+//     const token = req.headers.authorization || ''
+//     try {
+//         const user = await getUserFromToken(token)
+//         if (user) {
+//             const followers = await prisma.user.findMany({
+//                 where: { id: user.id }, select: {
+//                     following: {
+//                         include: {
+//                             posts: true
+//                         }
+//                     }
+//                 }
+//             })
+//             res.status(200).send(followers)
+//         } else {
+//             throw Error('Invalid token')
+//         }
+//     } catch (err) {
+//         //@ts-ignore
+//         res.status(400).send({ error: err.message })
+//     }
+// })
+
 app.get('/posts', async (req, res) => {
     const token = req.headers.authorization || ''
     try {
         const user = await getUserFromToken(token)
         if (user) {
-            const followers = await prisma.user.findMany({
-                where: { id: user.id }, include: {
-                    following: {
-                        include: {
-                            posts: true
-                        }
+            const followers = await prisma.user.findMany({ where: { id: user.id }, include: { following: true } })
+            const followersIndexes: number[] = []
+            for (const index of followers[0].following) {
+                followersIndexes.push(index.id)
+            }
+            const posts = await prisma.post.findMany({
+                where: {
+                    userId: {
+                        in: followersIndexes
                     }
+                },
+                include: {
+                    user: true
                 }
             })
-            res.status(200).send(followers)
+            res.send(posts)
         } else {
             throw Error('Invalid token')
         }
