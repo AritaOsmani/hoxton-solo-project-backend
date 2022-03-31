@@ -140,7 +140,7 @@ app.get('/suggestions', async (req, res) => {
     }
 })
 
-app.get('/followedBy', async (req, res) => {
+app.post('/followedBy', async (req, res) => {
     const token = req.headers.authorization || ''
     const { username } = req.body
     try {
