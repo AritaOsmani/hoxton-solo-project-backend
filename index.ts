@@ -288,6 +288,17 @@ app.post('/dislike', async (req, res) => {
     }
 })
 
+app.get('/likes/:postId', async (req, res) => {
+    const postId = Number(req.params.postId)
+    try {
+        const likes = await prisma.like.findMany({ where: { postId }, include: { user: true } })
+        res.status(200).send(likes)
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
