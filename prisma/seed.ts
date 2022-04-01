@@ -275,7 +275,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 1
             }
         },
-        image: 'https://images.pexels.com/photos/8685171/pexels-photo-8685171.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'
+        image: 'pexel-photo-1.jpeg'
     },
     {
         user: {
@@ -283,7 +283,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 2
             }
         },
-        image: 'https://images.pexels.com/photos/1543793/pexels-photo-1543793.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        image: 'pexels-photo-2.jpeg'
     },
     {
         user: {
@@ -291,7 +291,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 3
             }
         },
-        image: 'https://images.pexels.com/photos/11090150/pexels-photo-11090150.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+        image: 'pexel-photo-3.jpeg'
     }
 ]
 
