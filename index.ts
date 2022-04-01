@@ -299,6 +299,24 @@ app.get('/likes/:postId', async (req, res) => {
     }
 })
 
+app.patch('/follow', async (req, res) => {
+    const token = req.headers.authorization || ''
+    const { userToFollowUsername } = req.body
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const updatedUser = await prisma.user.update({ where: { id: user.id }, data: { following: { connect: { username: userToFollowUsername } } }, include: { following: true } })
+            res.status(200).send(updatedUser)
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
