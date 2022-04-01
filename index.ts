@@ -187,6 +187,18 @@ app.post('/followedBy', async (req, res) => {
     }
 })
 
+app.get('/comments/:postId', async (req, res) => {
+    const postId = Number(req.params.postId)
+    try {
+        const comments = await prisma.comment.findMany({ where: { postId }, include: { user: true } })
+        res.status(200).send(comments)
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.post('/comments', async (req, res) => {
     const token = req.headers.authorization || ''
     const { content, postId } = req.body
@@ -196,7 +208,7 @@ app.post('/comments', async (req, res) => {
             //check if the post exists:
             const postExists = await prisma.post.findUnique({ where: { id: postId } })
             if (postExists) {
-                const newComment = await prisma.comment.create({ data: { content, userId: user.id, postId: postId } })
+                const newComment = await prisma.comment.create({ data: { content, userId: user.id, postId: postId }, include: { user: true } })
                 res.status(200).send(newComment)
             } else {
                 res.status(404).send({ error: 'Post not found!' })
