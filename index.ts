@@ -11,6 +11,10 @@ app.use(express.json())
 app.use(cors())
 const PORT = 4000;
 
+app.use(express.static('images'))
+
+
+
 function generateToken(id: number) {
     //@ts-ignore
     const token = jwt.sign({ id }, process.env.SECRET, { expiresIn: '1day' })

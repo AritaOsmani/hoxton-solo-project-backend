@@ -1,7 +1,9 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import bcrypt from 'bcryptjs'
 
+
 const prisma = new PrismaClient()
+
 
 const users: Prisma.UserCreateInput[] = [
     {
@@ -145,7 +147,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277443259_757453168505754_7751590657412126682_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=L90AY_ejVWQAX8f4OrC&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT_0_sOeWHkKquI0aYLIk8Z1rq634lUux5ezTnOh8FrClg&oe=624A469D&_nc_sid=7bff83',
+        image: 'post_1.jpg',
         caption: 'These fact were bought two you by you\'re truly.'
     },
     {
@@ -154,7 +156,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277453765_132898195979298_2612047626344966303_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=iOxoREKtDh0AX_LjHwq&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT_X3d0PhbUiizlRV8-fQI6KmiyXf-tIYv416_lz-R2sOw&oe=624A0699&_nc_sid=7bff83',
+        image: 'post_2.jpg',
         caption: 'Smaller feet were considered more desirable for marriage.'
     },
     {
@@ -163,7 +165,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277417268_753236778936129_4415792898691112968_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=RAwfoEdj_gwAX_xLhEc&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT8ATfr7huw4ywUqzSFWU1Bk5nS452CwJKYxDNL1kAbzMg&oe=6249D439&_nc_sid=7bff83',
+        image: 'post_3.jpg',
         caption: 'What is your first language?'
     },
     {
@@ -172,7 +174,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277453663_158997583175303_6382159863414819958_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=111&_nc_ohc=KBovS8eUpCoAX_BOynE&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT9N5fj5ZyDuVAln_D1CCjyttLXDr4zRlOX9dLgTEutPag&oe=6249AF4A&_nc_sid=7bff83',
+        image: 'post_4.jpg',
         caption: 'Because Tolkien\'s son used to play with a toy known as Bingo Bear Koala.'
     },
     {
@@ -181,7 +183,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277435954_1085329988700389_8748074042433026173_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=N3T6nrk_pJQAX912H3E&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT98SoNE0KF4ZEGHqp5ytLV2VUu2jmwWAVUBFDXicI9Slg&oe=62493A18&_nc_sid=7bff83',
+        image: 'post_5.jpg',
         caption: 'SteppenWolf'
     },
     {
@@ -190,7 +192,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277332499_683764409437059_7441880725875596964_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=uWSz9ZJqhXgAX-8CN6I&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT_uHE5Xg0IAnQtf8ulkkncg2jMUy-SQV6PNf2inyvXHZA&oe=62499EC1&_nc_sid=7bff83',
+        image: 'post_6.jpg',
         caption: 'Ferrero gets these hazelnuts from Turkey, Italy, and Chile.'
     },
     {
@@ -199,7 +201,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277047266_418562530074568_7028952945274143780_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=104&_nc_ohc=ht29ro8AJa0AX8Mv4OZ&tn=Db0hpeV57mFux8Qw&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT-iT9Gmxn9Uxg2JEnfLezB8hutPDKJmDFk_2HE33xv6eg&oe=624A2EBC&_nc_sid=7bff83',
+        image: 'post_7.jpg',
         caption: 'Inmates had to defend a point of view with which they fiercely disagreed: “Resolved: Public schools in the United States should have the ability to deny enrollment to undocumented students.”'
     },
     {
@@ -208,7 +210,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/276985590_998388811070600_4785170048069716444_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=qKAygkhpPR0AX93T6TK&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT8dimMU419r5H7H_oX3jTeKmATAf1ExbFQON0sdXHEqCw&oe=6249D126&_nc_sid=7bff83',
+        image: 'post_8.jpg',
         caption: 'I never considered Ackbar “ugly”'
     },
     {
@@ -217,7 +219,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 6
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277062546_276931164608743_733245906703891307_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=hjqDLPlahd4AX8ZNZyu&edm=APU89FABAAAA&ccb=7-4&oh=00_AT8vsHW67H4T3AEsqHlqfKv-3k8rHzc0ctxtjqxZuat4Cg&oe=624A9DC0&_nc_sid=86f79a',
+        image: 'post_9.jpg',
         caption: 'Fair enough.'
     },
 
@@ -227,7 +229,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 5
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277414237_1506975223038704_6981696663255683755_n.jpg?stp=dst-jpg_e35&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=YQHBrqQA_y8AX86C9gj&edm=ALQROFkBAAAA&ccb=7-4&ig_cache_key=MjgwMzcwNzk1OTcyMjMyNzkyMQ%3D%3D.2-ccb7-4&oh=00_AT9ODilM9Lc9BYxd0o4NHjMam2gibr45r4hDxmUU5FAVHg&oe=6249CCA1&_nc_sid=30a2ef',
+        image: 'post_10.jpg',
         caption: 'When the joke is so good they high five your face'
     },
     {
@@ -236,7 +238,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 5
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277479037_977525152897115_7315674363477577381_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=8_IwbrIbCWkAX8rOF79&edm=APU89FABAAAA&ccb=7-4&oh=00_AT-P6qOj0PfOeGG-HfscrmJW1WWmhCsd4X18Xi7QBJy28g&oe=624A27B4&_nc_sid=86f79a',
+        image: 'post_11.jpg',
         caption: 'Are you suggesting my music taste is bad?😒'
     },
     {
@@ -245,7 +247,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 5
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277292631_156388510102621_1899804391540999454_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=TsRnAgICWUMAX8cRszL&edm=APU89FABAAAA&ccb=7-4&oh=00_AT-sa4VBXR-RUAkak8RNepCQV3v0F7t-dmlgKPJIqHL_WQ&oe=62496337&_nc_sid=86f79a',
+        image: 'post_12.jpg',
         caption: 'The grass is always greener on the other side'
     },
 
@@ -255,7 +257,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 7
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/277457769_3284389631840749_896158257125187806_n.jpg?stp=dst-jpg_e35_p1080x1080&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=Z2DLCgD0OmMAX8rR4Rm&edm=ABfd0MgBAAAA&ccb=7-4&oh=00_AT8McvVdMIY8RrggJOtL69ZmdqLjy_932Fw8X88hIp4qmA&oe=62497746&_nc_sid=7bff83',
+        image: 'post_13.jpg',
         caption: 'Will Smith slapped Chris Rock at the 2022 Oscars to defend his wife, Jada Pinkett Smith.'
     },
     {
@@ -264,7 +266,7 @@ const posts: Prisma.PostCreateInput[] = [
                 id: 7
             }
         },
-        image: 'https://instagram.fprn13-1.fna.fbcdn.net/v/t51.2885-15/275899333_164971689214262_1721862882842370329_n.jpg?stp=dst-jpg_e35_p1080x1080&_nc_ht=instagram.fprn13-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=QNKfhd_WYt8AX8AjrZC&edm=APU89FABAAAA&ccb=7-4&oh=00_AT8Dz_nP0UajcO0v7FBk0kwEame-bufWgWzF6OPUMosx-A&oe=624A0D01&_nc_sid=86f79a',
+        image: 'post_14.jpg',
         caption: 'A 67-year-old Asian woman was punched more than 100 times and stomped and spat on while entering her apartment building in Yonkers, New York.'
     },
     {
