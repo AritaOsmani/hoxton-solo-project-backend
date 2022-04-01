@@ -317,6 +317,25 @@ app.patch('/follow', async (req, res) => {
     }
 })
 
+app.patch('/unfollow', async (req, res) => {
+    const token = req.headers.authorization || ''
+    const { username } = req.body
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const userWithNewFollowing = await prisma.user.update({ where: { id: user.id }, data: { following: { disconnect: { username } } }, include: { following: true } })
+            res.status(200).send(userWithNewFollowing)
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
