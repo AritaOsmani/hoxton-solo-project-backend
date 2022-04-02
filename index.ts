@@ -143,6 +143,24 @@ app.get('/users', async (req, res) => {
     res.status(200).send(users)
 })
 
+app.get('/users/:username', async (req, res) => {
+    const username = req.params.username
+    try {
+        const userMatches = await prisma.user.findUnique({
+            where: { username }, include: { followedBy: true, following: true, posts: true, _count: { select: { followedBy: true, following: true, posts: true } } }
+        })
+        if (userMatches) {
+            res.status(200).send(userMatches)
+        } else {
+            res.status(404).send({ error: 'User not found' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.get('/suggestions', async (req, res) => {
     const token = req.headers.authorization || ''
     try {
