@@ -353,6 +353,39 @@ app.patch('/unfollow', async (req, res) => {
     }
 })
 
+app.get('/getUserFollowers/:username', async (req, res) => {
+    const username = req.params.username
+    try {
+        const userMatch = await prisma.user.findUnique({ where: { username }, include: { followedBy: true } })
+        if (userMatch) {
+            const followers = userMatch.followedBy
+            res.status(200).send(followers)
+        } else {
+            res.status(404).send({ error: 'User not found' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
+app.get('/getUserFollowing/:username', async (req, res) => {
+    const username = req.params.username
+    try {
+        const userMatch = await prisma.user.findUnique({ where: { username }, include: { following: true } })
+        if (userMatch) {
+            const following = userMatch.following
+            res.status(200).send(following)
+        } else {
+            res.status(404).send({ error: 'User not found' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
