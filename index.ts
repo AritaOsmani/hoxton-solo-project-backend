@@ -4,14 +4,33 @@ import cors from 'cors'
 import bcrypt from 'bcryptjs'
 import 'dotenv/config'
 import jwt from 'jsonwebtoken'
+import fileUpload from 'express-fileupload'
 
 const prisma = new PrismaClient({ log: ['error', 'query', 'info', 'warn'] })
 const app = express()
 app.use(express.json())
 app.use(cors())
+app.use(fileUpload())
 const PORT = 4000;
 
 app.use(express.static('images'))
+
+app.post('/upload', (req, res) => {
+    if (req.files === null) {
+        return res.status(400).json({ msg: 'No file uploaded' });
+    }
+    //@ts-ignore
+    const file = req.files.file;
+    //@ts-ignore
+    file.mv(`C:/Users/Admin/OneDrive/Desktop/Hoxton/Practice/hoxton-solo-project-backend/images/` + file.name, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send(err);
+        }
+        //@ts-ignore
+        res.json({ fileName: file.name, filePath: `/uploads/${file.name}` });
+    })
+})
 
 
 
@@ -28,6 +47,8 @@ async function getUserFromToken(token: string) {
     const user = await prisma.user.findUnique({ where: { id: userId.id } })
     return user;
 }
+
+
 
 app.post('/login', async (req, res) => {
     const { email_username, password } = req.body
