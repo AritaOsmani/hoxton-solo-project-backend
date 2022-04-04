@@ -48,7 +48,23 @@ async function getUserFromToken(token: string) {
     return user;
 }
 
+app.post('/createPost', async (req, res) => {
+    const token = req.headers.authorization || ''
+    const { image, caption } = req.body
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const newPost = await prisma.post.create({ data: { image, caption, userId: user.id } })
+            res.status(200).send(newPost)
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
 
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
 
 app.post('/login', async (req, res) => {
     const { email_username, password } = req.body
