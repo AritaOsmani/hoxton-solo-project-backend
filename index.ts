@@ -283,13 +283,13 @@ app.post('/dislike', async (req, res) => {
         const user = await getUserFromToken(token)
         if (user) {
             //Check if the post exists:
-            const postExists = await prisma.post.findFirst({ where: { id: postId } })
+            const postExists = await prisma.post.findUnique({ where: { id: postId } })
             if (postExists) {
                 //Check if the user liked the post:
                 const likedPost = await prisma.like.findFirst({ where: { userId: user.id, postId: postId } })
                 if (likedPost) {
-                    await prisma.like.delete({ where: { id: likedPost.id } })
-                    res.status(200).send({ message: 'You removed the like' })
+                    const likedRemoved = await prisma.like.delete({ where: { id: likedPost.id } })
+                    res.status(200).send(likedRemoved)
                 } else {
                     res.status(400).send({ error: 'You can\'t dislike this post!' })
                 }
