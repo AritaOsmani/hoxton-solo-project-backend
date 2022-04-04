@@ -403,6 +403,30 @@ app.get('/post/:id', async (req, res) => {
     }
 })
 
+app.post('/checkIfLiked', async (req, res) => {
+    const token = req.headers.authorization || ''
+    const { postId } = req.body
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const liked = await prisma.like.findFirst({ where: { userId: user.id, postId: postId } })
+            if (liked) {
+                res.status(200).send(liked)
+            } else {
+                res.status(404).send({ error: 'Not liked' })
+            }
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
