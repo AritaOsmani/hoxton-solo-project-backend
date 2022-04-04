@@ -387,6 +387,22 @@ app.get('/getUserFollowing/:username', async (req, res) => {
     }
 })
 
+app.get('/post/:id', async (req, res) => {
+    const id = Number(req.params.id)
+    try {
+        const post = await prisma.post.findUnique({ where: { id }, include: { comments: true, likes: true, user: true, _count: { select: { comments: true, likes: true } } } })
+        if (post) {
+            res.status(200).send(post)
+        } else {
+            res.status(404).send({ error: 'Post not found!' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
