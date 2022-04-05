@@ -464,6 +464,23 @@ app.post('/checkIfLiked', async (req, res) => {
     }
 })
 
+app.get('/getUserPosts/:username', async (req, res) => {
+    const username = req.params.username
+    try {
+        const user = await prisma.user.findUnique({ where: { username } })
+        if (user) {
+            const posts = await prisma.post.findMany({ where: { userId: user.id }, include: { comments: true, likes: true } })
+            res.status(200).send(posts)
+        } else {
+            res.status(404).send({ error: 'User not found!' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
