@@ -510,6 +510,34 @@ app.get('/stories', async (req, res) => {
     }
 })
 
+app.post('/addReply', async (req, res) => {
+    const token = req.headers.authorization || ''
+    const { content, commentId } = req.body
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const newReply = await prisma.reply.create({ data: { content: content, userId: user.id, commentId }, include: { user: true } })
+            res.status(200).send(newReply)
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
+app.get('/commentReplies/:commentId', async (req, res) => {
+    const commentId = Number(req.params.commentId)
+    try {
+        const replies = await prisma.reply.findMany({ where: { commentId }, include: { user: true } })
+        res.status(200).send(replies)
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
