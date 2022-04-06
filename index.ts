@@ -249,7 +249,7 @@ app.post('/followedBy', async (req, res) => {
 app.get('/comments/:postId', async (req, res) => {
     const postId = Number(req.params.postId)
     try {
-        const comments = await prisma.comment.findMany({ where: { postId }, include: { user: true } })
+        const comments = await prisma.comment.findMany({ where: { postId }, include: { user: true, replies: { include: { user: true } } } })
         res.status(200).send(comments)
 
     } catch (err) {
