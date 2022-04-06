@@ -510,6 +510,29 @@ app.get('/stories', async (req, res) => {
     }
 })
 
+app.get('/stories/:id', async (req, res) => {
+    const id = Number(req.params.id)
+    try {
+        const story = await prisma.story.findUnique({ where: { id }, include: { user: true } })
+        const updateStatus = await prisma.story.update({ where: { id }, data: { status: 'passive' } })
+        res.status(200).send(story)
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
+app.get('/passive', async (req, res) => {
+    try {
+        const stories = await prisma.story.findMany({ where: { status: 'passive' }, include: { user: true } })
+        res.status(200).send(stories)
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.post('/addReply', async (req, res) => {
     const token = req.headers.authorization || ''
     const { content, commentId } = req.body
