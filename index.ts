@@ -497,7 +497,8 @@ app.get('/stories', async (req, res) => {
                         in: followersIndexes
                     }
                 },
-                include: { user: true }
+                include: { user: true },
+                orderBy: { status: 'asc' }
             })
             res.status(200).send(stories)
         } else {
