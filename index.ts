@@ -481,6 +481,35 @@ app.get('/getUserPosts/:username', async (req, res) => {
     }
 })
 
+app.get('/stories', async (req, res) => {
+    const token = req.headers.authorization || ''
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const followers = await prisma.user.findMany({ where: { id: user.id }, include: { following: true } })
+            const followersIndexes: number[] = []
+            for (const index of followers[0].following) {
+                followersIndexes.push(index.id)
+            }
+            const stories = await prisma.story.findMany({
+                where: {
+                    userId: {
+                        in: followersIndexes
+                    }
+                },
+                include: { user: true }
+            })
+            res.status(200).send(stories)
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
