@@ -596,6 +596,28 @@ app.post('/accountsBySearch', async (req, res) => {
     }
 })
 
+app.get('/recents', async (req, res) => {
+    const token = req.headers.authorization || ''
+    try {
+        const user = await getUserFromToken(token)
+        if (user) {
+            const userSearches = await prisma.user.findUnique({ where: { id: user.id }, include: { searching: true } })
+            if (userSearches) {
+                res.status(200).send(userSearches.searching)
+            } else {
+                res.status(404).send({ error: 'Not found' })
+            }
+
+        } else {
+            res.status(400).send({ error: 'Invalid token' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
