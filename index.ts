@@ -580,6 +580,22 @@ app.patch('/search', async (req, res) => {
     }
 })
 
+app.post('/accountsBySearch', async (req, res) => {
+    const { searchInput } = req.body
+    try {
+        const account = await prisma.user.findMany({ where: { username: { contains: searchInput } } })
+        if (account) {
+            res.status(200).send(account)
+        } else {
+            res.status(404).send({ error: 'User not found' })
+        }
+
+    } catch (err) {
+        //@ts-ignore
+        res.status(400).send({ error: err.message })
+    }
+})
+
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`)
 })
